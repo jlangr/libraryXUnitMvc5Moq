@@ -25,3 +25,15 @@ If the "slow" category tests are failing:
   - Open the NuGet Package Manager Console (`Tools->NuGet Package Manager->Package Manager Console`).
   - Enter the command:
       Update-Database
+
+
+===
+
+Todo:
+
+- Rider debugging breakpoints change to "not" symbol after debugging starts
+- Console logging: w/ XUnit, can only use a console helper:
+     https://xunit.github.io/docs/capturing-output.html
+- How to use tuples. Tried installing System.ValueTuple (see https://stackoverflow.com/questions/38382971/predefined-type-system-valuetuple´2´-is-not-defined-or-imported) but seemed to still have a problem.
+  Appear to be on .NET 4.5 (not 4.7+). How to change that in Rider?
+  .NET.core 2.0.x? Maybe in Rider. Need to be on 3.1.
