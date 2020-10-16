@@ -7,13 +7,13 @@ namespace LibraryTests.LibraryTest.Util
 {
     public class BasicsTest
     {
-        [Fact(Skip="uncomment when ready to work")]
+        [Fact(Skip="unskip when ready to work")]
         public void SupportsBasicMath()
         {
             Assert.Equal(ReplaceThisWithWhatTheRealAnswerShouldBe, 4 * 8);
         }
 
-        [Fact(Skip="uncomment when ready to work")]
+        [Fact(Skip="unskip when ready to work")]
         public void AppendsItemToListViaAdd()
         {
             var numbers = new List<int> { 12, 1, 1, 1, 2, 1, 3 };
@@ -23,7 +23,7 @@ namespace LibraryTests.LibraryTest.Util
             Assert.Equal(new List<int> { ReplaceThisWithWhatTheRealAnswerShouldBe }, numbers);
         }
 
-        [Fact(DisplayName = "double each element in list of numbers", Skip = "uncomment when ready to work")]
+        [Fact(DisplayName = "double each element in list of numbers", Skip = "unskip when ready to work")]
         public void DoublesEachElementInListOfNumbers()
         {
             var numbers = new List<int> { 2, 5, 10, 105 };
@@ -33,7 +33,7 @@ namespace LibraryTests.LibraryTest.Util
             Assert.Equal(new List<int> { 4, 10, 20, 210 }, result);
         }
 
-        [Fact(Skip="uncomment when ready to work")]
+        [Fact(Skip="unskip when ready to work")]
         public void HandlesInterestingFloatPointNumericResults()
         {
             var result = 0.1 + 0.2;

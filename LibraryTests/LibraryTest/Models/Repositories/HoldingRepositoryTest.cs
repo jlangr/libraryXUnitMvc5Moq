@@ -3,7 +3,7 @@ using Library.Models;
 using Library.Models.Repositories;
 using NUnit.Framework;
 
-namespace LibraryTests.Library.Models.Repositories
+namespace LibraryTests.LibraryTest.Models.Repositories
 {
     [TestFixture, Category("slow")]
     public class HoldingRepositoryTest

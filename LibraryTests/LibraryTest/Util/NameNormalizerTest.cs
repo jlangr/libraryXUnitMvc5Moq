@@ -1,102 +1,93 @@
-﻿/*
-using System;
-using NUnit.Framework;
-using Library.Util;
-*/
+﻿// /*
 
-// 0. Remove the multiline comment and make sure things compile.
-// 1. Un-ignore the next commented-out test method.
+using System;
+using Library.Util;
+using Xunit;
+using Assert = Xunit.Assert;
+
+// */
+
+// 1. Un-skip the next commented-out test method.
 // 2. Run all tests in the project.
-// 3. Did the current test fail? If not: You built too much code in a prior step. Undo work for prior tests and try again.
+// 3. Did the current test fail?
+//     If not: Stop. You built too much code in a prior step. Undo work for prior tests and try again.
 // 4. Make sure you are clear on why the test failed.
 // 5. Write only enough code to make that failing test pass (and not break any other tests).
-//    Did you write too much? Is there a simple way to get that test to pass???
-// 6. If there is a commented-out assertion, uncomment it. It should fail. If not, return to step 5.
+//      Is there a simpler way to get that test to pass, without any extra behaviors?
+//      Assume that you need only support the behaviors described in tests so far.
+// 6. Is there another assertion that is commented out? Uncomment it. It should fail. Make it pass.
 // 7. Return to step 1.
 
-namespace LibraryTests.Library.Util
+namespace LibraryTests.LibraryTest.Util
 {
     public class NameNormalizerTest
     {
-        /*
         private NameNormalizer normalizer;
 
-        [SetUp]
-        public void Create()
+        public NameNormalizerTest()
         {
             normalizer = new NameNormalizer();
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void ReturnsEmptyStringWhenEmpty()
         {
-            Assert.That(normalizer.Normalize(""), Is.EqualTo(""));
+            Assert.Equal("", normalizer.Normalize(""));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void ReturnsSingleWordName()
         {
-            Assert.That(normalizer.Normalize("Plato"), Is.EqualTo("Plato"));
+            Assert.Equal("Plato", normalizer.Normalize("Plato"));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void ReturnsLastFirstWhenFirstLastProvided()
         {
-            Assert.That(normalizer.Normalize("Haruki Murakami"), Is.EqualTo("Murakami, Haruki"));
+            Assert.Equal("Murakami, Haruki", normalizer.Normalize("Haruki Murakami"));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void TrimsWhitespace()
         {
-            Assert.That(normalizer.Normalize("  Big Boi   "), Is.EqualTo("Boi, Big"));
+            Assert.Equal("Boi, Big", normalizer.Normalize("  Big Boi   "));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void InitializesMiddleName()
         {
-            Assert.That(normalizer.Normalize("Henry David Thoreau"), Is.EqualTo("Thoreau, Henry D."));
+            Assert.Equal("Thoreau, Henry D.", normalizer.Normalize("Henry David Thoreau"));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void DoesNotInitializeOneLetterMiddleName()
         {
-            Assert.That(normalizer.Normalize("Harry S Truman"), Is.EqualTo("Truman, Harry S"));
+            Assert.Equal("Truman, Harry S", normalizer.Normalize("Harry S Truman"));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void InitializesEachOfMultipleMiddleNames()
         {
-            Assert.That(normalizer.Normalize("Julia Scarlett Elizabeth Louis-Dreyfus"), Is.EqualTo("Louis-Dreyfus, Julia S. E."));
+            Assert.Equal("Louis-Dreyfus, Julia S. E.", normalizer.Normalize("Julia Scarlett Elizabeth Louis-Dreyfus"));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void AppendsSuffixesToEnd()
         {
-            Assert.That(normalizer.Normalize("Martin Luther King, Jr."), Is.EqualTo("King, Martin L., Jr."));
+            Assert.Equal("King, Martin L., Jr.", normalizer.Normalize("Martin Luther King, Jr."));
         }
 
-        [Ignore("")]
-        [Test]
+        [Fact(Skip="unskip when ready to work")]
         public void ThrowsWhenNameContainsTwoCommas()
         {
             var exception = Assert.Throws<ArgumentException>(() => normalizer.Normalize("Thurston, Howell, III"));
-            Assert.That(exception.Message, Is.EqualTo("name can have at most one comma"));
+            Assert.Equal("name can have at most one comma", exception.Message);
         }
 
-        [Ignore("")]
-        [Test]
-        public void OneWordNamesCanHaveSuffixes()
+        [Fact(Skip="unskip when ready to work")]
+        public void SuppotsSuffixesForOneWordNames()
         {
-            Assert.That(normalizer.Normalize("Madonna, Jr."), Is.EqualTo("Madonna, Jr."));
+            Assert.Equal("Madonna, Jr.", normalizer.Normalize("Madonna, Jr."));
         }
-        */
     }
 }
