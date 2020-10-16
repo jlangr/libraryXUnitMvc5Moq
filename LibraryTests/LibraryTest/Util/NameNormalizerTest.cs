@@ -29,19 +29,19 @@ namespace LibraryTests.LibraryTest.Util
             normalizer = new NameNormalizer();
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void ReturnsEmptyStringWhenEmpty()
         {
             Assert.Equal("", normalizer.Normalize(""));
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void ReturnsSingleWordName()
         {
             Assert.Equal("Plato", normalizer.Normalize("Plato"));
         }
 
-        [Fact(Skip="unskip when ready to work")]
+        [Fact]
         public void ReturnsLastFirstWhenFirstLastProvided()
         {
             Assert.Equal("Murakami, Haruki", normalizer.Normalize("Haruki Murakami"));
