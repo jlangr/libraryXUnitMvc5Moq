@@ -1,43 +1,56 @@
-using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTests.LibraryTest.Util
 {
     public class BasicsTest
     {
-        [Test]
-        public void DoStuff()
+        [Fact(Skip="uncomment when ready to work")]
+        public void SupportsBasicMath()
         {
-            Assert.That(1, Is.EqualTo(1));
+            Assert.Equal(ReplaceThisWithWhatTheRealAnswerShouldBe, 4 * 8);
+        }
+
+        [Fact(Skip="uncomment when ready to work")]
+        public void AppendsItemToListViaAdd()
+        {
+            var numbers = new List<int> { 12, 1, 1, 1, 2, 1, 3 };
+            
+            numbers.Add(1);  // (yes this could be part of the numbers initialization)
+
+            Assert.Equal(new List<int> { ReplaceThisWithWhatTheRealAnswerShouldBe }, numbers);
+        }
+
+        [Fact(DisplayName = "double each element in list of numbers", Skip = "uncomment when ready to work")]
+        public void DoublesEachElementInListOfNumbers()
+        {
+            var numbers = new List<int> { 2, 5, 10, 105 };
+
+            var result = ReplaceThisWithAppropriateCode();
+            
+            Assert.Equal(new List<int> { 4, 10, 20, 210 }, result);
+        }
+
+        [Fact(Skip="uncomment when ready to work")]
+        public void HandlesInterestingFloatPointNumericResults()
+        {
+            var result = 0.1 + 0.2;
+            
+            // fix this so it works
+            Assert.Equal(0.3, result);
         }
         
+        #region nothing to change here
+        private readonly int ReplaceThisWithWhatTheRealAnswerShouldBe = -1;
+        
+        private static object ReplaceThisWithAppropriateCode()
+        {
+            // no don't put the code in here, just delete the call to this method
+            return null;
+        }
+        #endregion
     }
 }
 
-/*
-xit('supports basic math', () => {
-    expect(4 * 8).toEqual(// what? //)
-})
-
-xit('appends an item to an array using push', () => {
-    const numbers = [12, 1, 1, 1, 2, 1, 3]
-
-    numbers.push(1)
-
-
-    expect(numbers).toEqual(// what? //)
-})
-
-xit('doubles each element an array of numbers ', () => {
-    const numbers = [2, 5, 10, 105]
-
-    const result = undefined // fill this out!
-
-    expect(result).toEqual([4, 10, 20, 210])
-})
-
-xit('handles interesting float-point number results', () => {
-    const result = 0.1 + 0.2
-
-    // expect(result).to what?
-})
-*/
