@@ -1,0 +1,118 @@
+﻿using Library.Models;
+using Library.Models.Repositories;
+using System.Collections.Generic;
+using Library.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Library.Controllers
+{
+    public class PatronsController : Controller
+    {
+        readonly IRepository<Patron> patronRepo;
+        readonly IRepository<Holding> holdingRepo;
+
+        public PatronsController()
+        {
+            patronRepo = new EntityRepository<Patron>(db => db.Patrons);
+            holdingRepo = new EntityRepository<Holding>(db => db.Holdings);
+        }
+
+        public PatronsController(IRepository<Patron> patronRepo, IRepository<Holding> holdingRepo)
+        {
+            this.patronRepo = patronRepo;
+            this.holdingRepo = holdingRepo;
+        }
+
+        // GET: Patrons
+        public ActionResult Index()
+        {
+            return View(patronRepo.GetAll());
+        }
+
+        // GET: Patrons/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Patrons/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind("Id,Name,Balance")] Patron patron)
+        {
+            if (ModelState.IsValid)
+            {
+                patronRepo.Create(patron);
+                return RedirectToAction("Index");
+            }
+            return View(patron);
+        }
+
+        // GET: Patrons/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return BadRequest();
+            var patron = patronRepo.GetByID(id.Value);
+            if (patron == null)
+                return NotFound();
+            return View(patron);
+        }
+
+        public ActionResult Holdings(int patronId)
+        {
+            var holdings = holdingRepo.FindBy(holding => holding.HeldByPatronId == patronId);
+            return View(holdings);
+        }
+
+        // GET: Patrons/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            return Edit(id);
+        }
+
+        // GET: Patrons/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+                return BadRequest();
+            var patron = patronRepo.GetByID(id.Value);
+            if (patron == null)
+                return NotFound();
+            var patronView = new PatronViewModel(patron)
+            {
+                Holdings = new List<Holding>(holdingRepo.FindBy(holding => holding.HeldByPatronId == id))
+            };
+            return View(patronView);
+        }
+
+        // POST: Patrons/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind("Id,Name,Balance")] Patron patron)
+        {
+            if (ModelState.IsValid)
+            {
+                patronRepo.Save(patron);
+                return RedirectToAction("Index");
+            }
+            return View(patron);
+        }
+
+        // POST: Patrons/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            patronRepo.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                patronRepo.Dispose();
+            base.Dispose(disposing);
+        }
+    }
+}

@@ -1,11 +1,7 @@
-﻿// /*
-
-using System;
+﻿using System;
 using Library.Util;
 using Xunit;
 using Assert = Xunit.Assert;
-
-// */
 
 // 1. Un-skip the next commented-out test method.
 // 2. Run all tests in the project.
@@ -22,7 +18,7 @@ namespace LibraryTests.LibraryTest.Util
 {
     public class NameNormalizerTest
     {
-        private NameNormalizer normalizer;
+        private Library.Util.NameNormalizer normalizer;
 
         public NameNormalizerTest()
         {

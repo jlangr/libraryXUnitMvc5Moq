@@ -11,9 +11,9 @@ namespace Library.ViewModels
 
         public PatronViewModel(Patron patron)
         {
-            Id = patron.Id;
-            Balance = patron.Balance;
-            Name = patron.Name;
+            this.Id = patron.Id;
+            this.Balance = patron.Balance;
+            this.Name = patron.Name;
         }
 
         [NotMapped]

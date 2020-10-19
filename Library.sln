@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryTests", "LibraryTests\LibraryTests.csproj", "{E04E3009-8000-45BC-9EA5-721E7122E648}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryCore", "LibraryCore\LibraryCore.csproj", "{5554817B-BACA-4DF3-AFBB-2CF739D405E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryCoreTests", "LibraryCoreTests\LibraryCoreTests.csproj", "{3380C81B-5DC7-4829-81C8-41CA1CD0BF1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E04E3009-8000-45BC-9EA5-721E7122E648}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E04E3009-8000-45BC-9EA5-721E7122E648}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E04E3009-8000-45BC-9EA5-721E7122E648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5554817B-BACA-4DF3-AFBB-2CF739D405E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5554817B-BACA-4DF3-AFBB-2CF739D405E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5554817B-BACA-4DF3-AFBB-2CF739D405E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5554817B-BACA-4DF3-AFBB-2CF739D405E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3380C81B-5DC7-4829-81C8-41CA1CD0BF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3380C81B-5DC7-4829-81C8-41CA1CD0BF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3380C81B-5DC7-4829-81C8-41CA1CD0BF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3380C81B-5DC7-4829-81C8-41CA1CD0BF1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

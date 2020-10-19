@@ -1,8 +1,4 @@
-﻿using Library.Reporting;
-using LibraryTests.LibraryTest.Util;
-using NUnit.Framework;
-using System;
-using System.IO;
+﻿using System;
 
 namespace LibraryTests.Library.Reporting
 {

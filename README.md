@@ -37,3 +37,6 @@ Todo:
 - How to use tuples. Tried installing System.ValueTuple (see https://stackoverflow.com/questions/38382971/predefined-type-system-valuetuple´2´-is-not-defined-or-imported) but seemed to still have a problem.
   Appear to be on .NET 4.5 (not 4.7+). How to change that in Rider?
   .NET.core 2.0.x? Maybe in Rider. Need to be on 3.1.
+
+-- installed .NET Core 3.1 
+https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-3.1.9-macos-x64-installer
