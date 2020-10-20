@@ -1,26 +1,25 @@
-using NUnit.Framework;
 using Library.Models;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTest.Library.Models
 {
-    [TestFixture]
     public class MovieCheckoutPolicyTest
     {
         private CheckoutPolicy policy;
 
-        [SetUp]
-        public void Initialize()
+        public MovieCheckoutPolicyTest()
         {
             policy = new MovieCheckoutPolicy();
         }
 
-        [Test]
+        [Fact]
         public void DailyAccumulatingFine()
         {
             var daysLate = 1;
-            Assert.That(policy.FineAmount(daysLate++), Is.EqualTo(MovieCheckoutPolicy.PenaltyAmount + MovieCheckoutPolicy.DailyFineBasis * 1));
-            Assert.That(policy.FineAmount(daysLate++), Is.EqualTo(MovieCheckoutPolicy.PenaltyAmount + MovieCheckoutPolicy.DailyFineBasis * 2));
-            Assert.That(policy.FineAmount(daysLate), Is.EqualTo(MovieCheckoutPolicy.PenaltyAmount + MovieCheckoutPolicy.DailyFineBasis * 3));
+            Assert.Equal(MovieCheckoutPolicy.PenaltyAmount + MovieCheckoutPolicy.DailyFineBasis * 1, policy.FineAmount(daysLate++));
+            Assert.Equal(MovieCheckoutPolicy.PenaltyAmount + MovieCheckoutPolicy.DailyFineBasis * 2, policy.FineAmount(daysLate++));
+            Assert.Equal(MovieCheckoutPolicy.PenaltyAmount + MovieCheckoutPolicy.DailyFineBasis * 3, policy.FineAmount(daysLate));
         }
     }
 }

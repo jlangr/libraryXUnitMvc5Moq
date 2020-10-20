@@ -1,44 +1,47 @@
 using System;
-using NUnit.Framework;
 using Library.Models;
+using Xunit;
 
 namespace LibraryTest.Library.Models
 {
-    [TestFixture]
     public class BookCheckoutPolicyTest
     {
         private CheckoutPolicy policy;
 
-        [SetUp]
-        public void Initialize()
+        public BookCheckoutPolicyTest()
         {
             policy = new BookCheckoutPolicy();
         }
 
         // TODO Use abstract test here and for next test!
-        [Test]
+        [Fact]
         public void NoDaysLateIfReturnedOnTime()
         {
             var checkoutDate = DateTime.Now;
+            
             var checkinDate = checkoutDate.AddDays(policy.MaximumCheckoutDays());
-            Assert.That(policy.DaysLate(checkoutDate, checkinDate), Is.Zero);
+            
+            Assert.Equal(0, policy.DaysLate(checkoutDate, checkinDate));
         }
 
-        [Test]
+        [Fact]
         public void OneDayLateWhenReturnedDayAfterDue()
         {
             var checkoutDate = DateTime.Now;
+            
             var checkinDate = checkoutDate.AddDays(policy.MaximumCheckoutDays() + 1);
-            Assert.That(policy.DaysLate(checkoutDate, checkinDate), Is.EqualTo(1));
+            
+            Assert.Equal(1, policy.DaysLate(checkoutDate, checkinDate));
         }
 
-        [Test]
+        [Fact]
         public void FineIsDaysLateTimesBasis()
         {
             var daysLate = 1;
-            Assert.That(policy.FineAmount(daysLate++), Is.EqualTo(BookCheckoutPolicy.DailyFineBasis * 1));
-            Assert.That(policy.FineAmount(daysLate++), Is.EqualTo(BookCheckoutPolicy.DailyFineBasis * 2));
-            Assert.That(policy.FineAmount(daysLate), Is.EqualTo(BookCheckoutPolicy.DailyFineBasis * 3));
+            
+            Assert.Equal(BookCheckoutPolicy.DailyFineBasis * 1, policy.FineAmount(daysLate++));
+            Assert.Equal(BookCheckoutPolicy.DailyFineBasis * 2, policy.FineAmount(daysLate++));
+            Assert.Equal(BookCheckoutPolicy.DailyFineBasis * 3, policy.FineAmount(daysLate));
         }
     }
 }

@@ -1,34 +1,33 @@
-using NUnit.Framework;
 using Library.Models;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTest.Library.Models
 {
-    [TestFixture]
     public class MasterClassificationServiceTest
     {
         private IClassificationService service;
 
-        [SetUp]
-        public void Initialize()
+        public MasterClassificationServiceTest()
         {
             service = new MasterClassificationService();
             service.DeleteAllBooks();
         }
 
-        [Test]
+        [Fact]
         public void AddBook()
         {
             service.AddBook("QA123", "The Trial", "Kafka, Franz", "1927");
             AssertBook(service.Retrieve("QA123"), "QA123", "The Trial", "Kafka, Franz", "1927");
         }
 
-        [Test]
+        [Fact]
         public void ReturnsNullWhenBookNotFound()
         {
-            Assert.That(service.Retrieve("QA123"), Is.Null);
+            Assert.Null(service.Retrieve("QA123"));
         }
 
-        [Test]
+        [Fact]
         public void Persists()
         {
             service.AddBook("QA123", "The Trial", "Kafka, Franz", "1927");
@@ -37,7 +36,7 @@ namespace LibraryTest.Library.Models
             AssertBook(service.Retrieve("QA123"), "QA123", "The Trial", "Kafka, Franz", "1927");
         }
 
-        [Test]
+        [Fact]
         public void MultipleBooks()
         {
             service.AddBook("QA123", "The Trial", "Kafka, Franz", "1927");
@@ -46,25 +45,25 @@ namespace LibraryTest.Library.Models
             AssertBook(service.Retrieve("PS334"), "PS334", "Agile Java", "Langr, Jeff", "2005");
         }
 
-        [Test]
+        [Fact]
         public void AddMovie()
         {
             service.AddMovie("FF223", "Fight Club", "Fincher, David", "1999");
             var material = service.Retrieve("FF223");
-            Assert.That(material.Classification, Is.EqualTo("FF223"));
-            Assert.That(material.Title, Is.EqualTo("Fight Club"));
-            Assert.That(material.Director, Is.EqualTo("Fincher, David"));
-            Assert.That(material.Year, Is.EqualTo("1999"));
+            Assert.Equal("FF223", material.Classification);
+            Assert.Equal("Fight Club", material.Title);
+            Assert.Equal("Fincher, David", material.Director);
+            Assert.Equal("1999", material.Year);
         }
 
         private static void AssertBook(Material material, string classification, string title, string author, string year)
         {
-            Assert.That(material.Title, Is.EqualTo(title));
-            Assert.That(material.Author, Is.EqualTo(author));
-            Assert.That(material.Year, Is.EqualTo(year));
-            Assert.That(material.Classification, Is.EqualTo(classification));
+            Assert.Equal(title, material.Title);
+            Assert.Equal(author, material.Author);
+            Assert.Equal(year, material.Year);
+            Assert.Equal(classification, material.Classification);
 
-            Assert.That(material.CheckoutPolicy.GetType(), Is.EqualTo(typeof(BookCheckoutPolicy)));
+            Assert.Equal(typeof(BookCheckoutPolicy), material.CheckoutPolicy.GetType());
         }
     }
 }

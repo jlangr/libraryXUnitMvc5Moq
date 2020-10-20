@@ -1,8 +1,9 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Moq;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTests.LibraryTest.Util
 {
@@ -43,8 +44,7 @@ namespace LibraryTests.LibraryTest.Util
         public virtual DictionarySvc CreateDict() { return new DictionarySvc(); }
     }
 
-    [TestFixture]
-    public class ScratchMoqTests
+    public class ScratchMoqTest
     {
         private DictionarySvc dictionaryService;
 
@@ -54,13 +54,12 @@ namespace LibraryTests.LibraryTest.Util
             public override DictionarySvc CreateDict() { return Dict; }
         }
 
-        [SetUp]
-        public void Create()
+        public ScratchMoqTest()
         {
             dictionaryService = new DictionarySvc();
         }
 
-        [Test]
+        [Fact]
         public void LogsAuditRecordOnAdd()
         {
             var auditorSpy = new Mock<Auditor>();
@@ -70,7 +69,7 @@ namespace LibraryTests.LibraryTest.Util
 
             auditorSpy.Verify(auditor => auditor.Log("adding dog:a canine"));
         }
-        [Test]
+        [Fact]
         public void LogsAuditRecordOnAdd_Strict()
         {
             var auditorSpy = new Mock<Auditor>(MockBehavior.Strict);
@@ -82,7 +81,7 @@ namespace LibraryTests.LibraryTest.Util
 
             //auditorSpy.Verify(auditor => auditor.Log("adding dog:a canine"));
         }
-        [Test]
+        [Fact]
         public void PropertyOverride()
         {
 
@@ -90,57 +89,57 @@ namespace LibraryTests.LibraryTest.Util
             var mock = new Mock<DictionarySvc>();
             mock.Setup(d => d.LookUp("smelt")).Returns("hooo");
             c.Dict = mock.Object;
-            Assert.That(c.GetDefinition("smelt"), Is.EqualTo("hooo"));
+            Assert.Equal("hooo", c.GetDefinition("smelt"));
 
         }
-        [Test]
+        [Fact]
         public void X()
         {
             var mock = new Moq.Mock<IList<string>>();
             mock.Setup(l => l.Count).Returns(42);
             IList<string> list = mock.Object;
-            Assert.That(list.Count, Is.EqualTo(42));
+            Assert.Equal(42, list.Count);
         }
 
-        [Test]
+        [Fact]
         public void Args()
         {
             var dictionary = Mock.Of<DictionarySvc>(s => s.LookUp("smelt") == "a fish");
 
-            Assert.That(dictionary.LookUp("smelt"), Is.EqualTo("a fish"));
+            Assert.Equal("a fish", dictionary.LookUp("smelt"));
         }
 
-        [Test]
+        [Fact]
         public void Args2()
         {
             var dictionary = Mock.Of<DictionarySvc>();
             Mock.Get(dictionary).Setup(d => d.LookUp(It.IsAny<string>())).Returns("a fish");
 
-            Assert.That(dictionary.LookUp("smelt"), Is.EqualTo("a fish"));
+            Assert.Equal("a fish", dictionary.LookUp("smelt"));
         }
 
-        [Test]
+        [Fact]
         public void ArgsWithPredicate()
         {
             var dictionary = Mock.Of<DictionarySvc>();
             Mock.Get(dictionary).Setup(
                 d => d.LookUp(It.Is<string>(s => s.Last() == 's'))).Returns("plural");
 
-            Assert.That(dictionary.LookUp("smelts"), Is.EqualTo("plural"));
-            Assert.That(dictionary.LookUp("smelt"), Is.Null);
+            Assert.Equal("plural", dictionary.LookUp("smelts"));
+            Assert.Null(dictionary.LookUp("smelt"));
         }
 
-        [Test]
+        [Fact]
         public void Args3()
         {
             var mock = new Moq.Mock<DictionarySvc>();
             mock.Setup(x => x.StringStuff(It.IsAny<string>()))
                 .Returns((string s) => s.ToLower());
 
-            Assert.That(mock.Object.StringStuff("BOZO"), Is.EqualTo("bozo"));
+            Assert.Equal("bozo", mock.Object.StringStuff("BOZO"));
         }
 
-        [Test]
+        [Fact]
         public void Args4()
         {
             // returning different values on each invocation
@@ -151,8 +150,8 @@ namespace LibraryTests.LibraryTest.Util
                 .Returns(() => definitions[i])
                 .Callback(() => i++);
             var dict = mock.Object;
-            Assert.That(dict.LookUp("smelt"), Is.EqualTo("a fish"));
-            Assert.That(dict.LookUp("smelt"), Is.EqualTo("did smell"));
+            Assert.Equal("a fish", dict.LookUp("smelt"));
+            Assert.Equal("did smell", dict.LookUp("smelt"));
         }
     }
 }

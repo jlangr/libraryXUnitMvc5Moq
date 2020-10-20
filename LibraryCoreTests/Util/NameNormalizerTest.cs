@@ -18,7 +18,7 @@ namespace LibraryTests.LibraryTest.Util
 {
     public class NameNormalizerTest
     {
-        private Library.Util.NameNormalizer normalizer;
+        private NameNormalizer normalizer;
 
         public NameNormalizerTest()
         {

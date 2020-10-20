@@ -2,11 +2,11 @@
 using System.Linq;
 using Library.Models;
 using Library.Models.Repositories;
-using NUnit.Framework;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTests.LibraryTest.Models.Repositories
 {
-    [TestFixture]
     public class InMemoryRepositoryTest
     {
         private X x;
@@ -18,42 +18,41 @@ namespace LibraryTests.LibraryTest.Models.Repositories
             public string Name { get; set; }
         };
         
-        [SetUp]
-        public void Initialize()
+        public InMemoryRepositoryTest()
         {
             x = new X();
             repo = new InMemoryRepository<X>();
         }
 
-        [Test]
+        [Fact]
         public void InitialIdIs1()
         {
             var id = repo.Create(x);
 
-            Assert.That(id, Is.EqualTo(1));
+            Assert.Equal(1, id);
         }
 
-        [Test]
+        [Fact]
         public void IdIncrementsOnCreate()
         {
             repo.Create(x);
 
             var id = repo.Create(x);
 
-            Assert.That(id, Is.EqualTo(2));
+            Assert.Equal(2, id);
         }
 
-        [Test]
+        [Fact]
         public void RetrievedInstanceNotSameAsCreated()
         {
             var id = repo.Create(x);
 
             var retrieved = repo.GetByID(id);
 
-            Assert.That(retrieved, Is.Not.SameAs(x));
+            Assert.NotSame(x, retrieved);
         }
 
-        [Test]
+        [Fact]
         public void FindsUsingLambda()
         {
             var alpha = new X { Name = "alpha" };
@@ -63,20 +62,20 @@ namespace LibraryTests.LibraryTest.Models.Repositories
 
             var retrieved = repo.Get(each => each.Name == "beta");
 
-            Assert.That(retrieved.Id, Is.EqualTo(betaId));
+            Assert.Equal(betaId, retrieved.Id);
         }
 
-        [Test]
+        [Fact]
         public void ClearsRepo()
         {
             repo.Create(x);
 
             repo.Clear();
 
-            Assert.That(repo.GetAll(), Is.Empty);
+            Assert.Empty(repo.GetAll());
         }
 
-        [Test]
+        [Fact]
         public void RetrieveWithoutSaveReturnsOriginallySavedVersion()
         {
             x.Name = "original";
@@ -85,10 +84,10 @@ namespace LibraryTests.LibraryTest.Models.Repositories
 
             var retrieved = repo.GetByID(x.Id);
 
-            Assert.That(retrieved.Name, Is.EqualTo("original"));
+            Assert.Equal("original", retrieved.Name);
         }
 
-        [Test]
+        [Fact]
         public void RetrieveAfterSaveReturnsUpdatedEntity()
         {
             x.Name = "original";
@@ -98,10 +97,10 @@ namespace LibraryTests.LibraryTest.Models.Repositories
 
             var retrieved = repo.GetByID(x.Id);
 
-            Assert.That(retrieved.Name, Is.EqualTo("new"));
+            Assert.Equal("new", retrieved.Name);
         }
 
-        [Test]
+        [Fact]
         public void MarkModifiedDoesNothingIfSaveNotCalled()
         {
             x.Name = "original";
@@ -111,10 +110,10 @@ namespace LibraryTests.LibraryTest.Models.Repositories
             repo.MarkModified(x);
 
             var retrieved = repo.GetByID(x.Id);
-            Assert.That(retrieved.Name, Is.EqualTo("original"));
+            Assert.Equal("original", retrieved.Name);
         }
 
-        [Test]
+        [Fact]
         public void SavePersistsEntitiesMarkedModified()
         {
             x.Name = "original";
@@ -125,10 +124,10 @@ namespace LibraryTests.LibraryTest.Models.Repositories
             repo.Save();
 
             var retrieved = repo.GetByID(x.Id);
-            Assert.That(retrieved.Name, Is.EqualTo("new"));
+            Assert.Equal("new", retrieved.Name);
         }
 
-        [Test]
+        [Fact]
         public void ModifiedEntitiesClearedAfterSave()
         {
             repo.Create(x);
@@ -140,17 +139,17 @@ namespace LibraryTests.LibraryTest.Models.Repositories
             repo.Save();
 
             var retrieved = repo.GetByID(x.Id);
-            Assert.That(retrieved.Name, Is.EqualTo("First Save"));
+            Assert.Equal("First Save", retrieved.Name);
         }
 
-        [Test]
+        [Fact]
         public void ModifiedEntitiesClearedAfterClear()
         {
             repo.MarkModified(x);
 
             repo.Clear();
 
-            Assert.That(repo.ModifiedEntities.Any(), Is.False);
+            Assert.False(repo.ModifiedEntities.Any());
         }
     }
 }

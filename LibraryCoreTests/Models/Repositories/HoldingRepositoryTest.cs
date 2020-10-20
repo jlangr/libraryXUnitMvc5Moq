@@ -1,36 +1,35 @@
 ﻿using Library.ControllerHelpers;
 using Library.Models;
 using Library.Models.Repositories;
-using NUnit.Framework;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTests.LibraryTest.Models.Repositories
 {
-    [TestFixture, Category("slow")]
     public class HoldingRepositoryTest
     {
         InMemoryRepository<Holding> repo;
 
-        [SetUp]
-        public void Create()
+        public HoldingRepositoryTest()
         {
-            repo = new InMemoryRepository<Holding>(); //db => db.Holdings);
+            repo = new InMemoryRepository<Holding>();
             repo.Clear();
         }
 
-        [Test]
+        [Fact]
         public void FindByBarcodeReturnsNullWhenNotFound()
         {
-            Assert.That(HoldingsControllerUtil.FindByBarcode(repo, "AA:1"), Is.Null);
+            Assert.Null(HoldingsControllerUtil.FindByBarcode(repo, "AA:1"));
         }
 
-        [Test]
+        [Fact]
         public void FindByBarcodeReturnsHoldingMatchingClassificationAndCopy()
         {
             var holding = new Holding { Classification = "AA123", CopyNumber = 2 };
 
             repo.Create(holding);
 
-            Assert.That(HoldingsControllerUtil.FindByBarcode(repo, "AA123:2"), Is.EqualTo(holding));
+            Assert.Equal(holding, HoldingsControllerUtil.FindByBarcode(repo, "AA123:2"));
         }
     }
 }

@@ -11,5 +11,5 @@
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb245f73_002D369a_002D49c8_002Dae2f_002D374b221883b9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Session" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/Users/jlangr/devel/libraryXUnitMvc5Moq/LibraryCoreTests" Presentation="&amp;lt;LibraryCoreTests&amp;gt;" /&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

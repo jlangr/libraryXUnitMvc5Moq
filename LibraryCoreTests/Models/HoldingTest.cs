@@ -1,6 +1,7 @@
 using System;
-using NUnit.Framework;
 using Library.Models;
+using Xunit;
+using Assert = Xunit.Assert;
 
 /*
 This test class is a mess. Some of the following opportunities for cleanup might exist:
@@ -22,108 +23,107 @@ This test class is a mess. Some of the following opportunities for cleanup might
 
 namespace LibraryTest.Library.Models
 {
-    [TestFixture]
     public class HoldingTest
     {
         const int PatronId = 101;
         const string ExpectedBarcode = "QA234:3";
         const int SomeBranchId = 1;
 
-        [Test]
+        [Fact]
         public void CreateWithCommonArguments()
         {
             const int branchId = 10;
             var holding = new Holding("QA123", 2, branchId);
-            Assert.That(holding, Is.Not.Null);
-            Assert.That(holding.Barcode, Is.EqualTo("QA123:2"), "Barcode not concatenated properly");
-            Assert.That(holding.BranchId, Is.EqualTo(branchId));
+            Assert.NotNull(holding);
+            Assert.Equal("QA123:2", holding.Barcode);
+            Assert.Equal(branchId, holding.BranchId);
         }
 
-        [Test]
+        [Fact]
         public void IsValidBarcodeReturnsFalseWhenItHasNoColon()
         {
-            Assert.That(Holding.IsBarcodeValid("ABC"), Is.False, "Barcode valid when expected to be false");
+            Assert.False(Holding.IsBarcodeValid("ABC"));
         }
 
-        [Test]
+        [Fact]
         public void IsValidBarcodeReturnsFalseWhenItsCopyNumberNotPositiveInt()
         {
-            Assert.That(Holding.IsBarcodeValid("ABC:X"), Is.False);
-            Assert.That(Holding.IsBarcodeValid("ABC:0"), Is.False);
+            Assert.False(Holding.IsBarcodeValid("ABC:X"));
+            Assert.False(Holding.IsBarcodeValid("ABC:0"));
         }
 
-        [Test]
+        [Fact]
         public void IsValidBarcodeReturnsFalseWhenItsClassificationIsEmpty()
         {
-            Assert.That(Holding.IsBarcodeValid(":1"), Is.False);
+            Assert.False(Holding.IsBarcodeValid(":1"));
         }
 
-        [Test]
+        [Fact]
         public void IsValidBarcodeReturnsTrueWhenFormattedCorrectly()
         {
-            Assert.That(Holding.IsBarcodeValid("ABC:1"));
+            Assert.True(Holding.IsBarcodeValid("ABC:1"));
         }
 
-        [Test]
+        [Fact]
         public void GenBarcode()
         {
-            Assert.That(Holding.GenerateBarcode("QA234", 3), Is.EqualTo(ExpectedBarcode));
+            Assert.Equal(ExpectedBarcode, Holding.GenerateBarcode("QA234", 3));
         }
 
-        [Test]
+        [Fact]
         public void ClassificationFromBarcode()
         {
             try
             {
-                Assert.That(Holding.ClassificationFromBarcode(ExpectedBarcode), Is.EqualTo("QA234"));
+                Assert.Equal("QA234", Holding.ClassificationFromBarcode(ExpectedBarcode));
             }
             catch (FormatException)
             {
-                Assert.Fail("fail");
+                Assert.True(false, "should not thro fmt except");
             }
         }
 
-        [Test]
+        [Fact]
         public void ParsesCopyNoFromBarcode()
         {
             try
             {
-                Assert.That(Holding.CopyNumberFromBarcode(ExpectedBarcode), Is.EqualTo(3));
+                Assert.Equal(3, Holding.CopyNumberFromBarcode(ExpectedBarcode));
             }
             catch (FormatException)
             {
-                Assert.Fail("test threw format exception");
+                Assert.False(true, "test threw format exception");
             }
         }
 
-        [Test]
+        [Fact]
         public void CopyNumberFromBarcodeThrowsWhenNoColonExists()
         {
             Assert.Throws<FormatException>(() => Holding.CopyNumberFromBarcode("QA234"));
         }
 
-        [Test]
+        [Fact]
         public void Co()
         {
             var holding = new Holding { Classification = "", CopyNumber = 1, BranchId = 1 };
-            Assert.IsFalse(holding.IsCheckedOut);
+            Assert.False(holding.IsCheckedOut);
             var now = DateTime.Now;
 
             var policy = CheckoutPolicies.BookCheckoutPolicy;
             holding.CheckOut(now, PatronId, policy);
 
-            Assert.IsTrue(holding.IsCheckedOut);
+            Assert.True(holding.IsCheckedOut);
 
-            Assert.AreSame(policy, holding.CheckoutPolicy);
-            Assert.That(holding.HeldByPatronId, Is.EqualTo(PatronId));
+            Assert.Same(policy, holding.CheckoutPolicy);
+            Assert.Equal(PatronId, holding.HeldByPatronId);
 
             var dueDate = now.AddDays(policy.MaximumCheckoutDays());
-            Assert.That(holding.DueDate, Is.EqualTo(dueDate));
+            Assert.Equal(dueDate, holding.DueDate);
 
-            Assert.That(holding.BranchId, Is.EqualTo(Branch.CheckedOutId));
+            Assert.Equal(Branch.CheckedOutId, holding.BranchId);
         }
 
-        [Test]
+        [Fact]
         public void CheckIn()
         {
             var holding = new Holding { Classification = "X", BranchId = 1, CopyNumber = 1 };
@@ -132,15 +132,15 @@ namespace LibraryTest.Library.Models
             var tomorrow = DateTime.Now.AddDays(1);
             const int newBranchId = 2;
             holding.CheckIn(tomorrow, newBranchId);
-            Assert.IsFalse(holding.IsCheckedOut);
-            Assert.That(holding.HeldByPatronId, Is.EqualTo(Holding.NoPatron));
-            Assert.That(holding.CheckOutTimestamp, Is.Null);
-            Assert.That(holding.BranchId, Is.EqualTo(newBranchId));
+            Assert.False(holding.IsCheckedOut);
+            Assert.Equal(Holding.NoPatron, holding.HeldByPatronId);
+            Assert.Null(holding.CheckOutTimestamp);
+            Assert.Equal(newBranchId, holding.BranchId);
             // day after now
-            Assert.That(holding.LastCheckedIn, Is.EqualTo(tomorrow));
+            Assert.Equal(tomorrow, holding.LastCheckedIn);
         }
 
-        [Test]
+        [Fact]
         public void CheckInAnswersZeroDaysLateWhenReturnedOnDueDate()
         {
             var holding = new Holding { Classification = "X", BranchId = 1, CopyNumber = 1 };
@@ -150,23 +150,23 @@ namespace LibraryTest.Library.Models
             int brId = 2;
             
             holding.CheckIn(dueDate, brId);
-            Assert.That(holding.DaysLate(), Is.EqualTo(0));
+            Assert.Equal(0, holding.DaysLate());
         }
 
-        [Test]
+        [Fact]
         public void DaysLateCalculatedWhenReturnedAfterDueDate()
         {
             var holding = new Holding { Classification = "X", BranchId = 1, CopyNumber = 1 };
             holding.CheckOut(DateTime.Now, PatronId, CheckoutPolicies.BookCheckoutPolicy);
 
             var date = holding.DueDate.Value.AddDays(2);
-            int branchId = 2;
+            var branchId = 2;
             
             holding.CheckIn(date, branchId);
-            Assert.That(holding.DaysLate(), Is.EqualTo(2));
+            Assert.Equal(2, holding.DaysLate());
         }
 
-        [Test]
+        [Fact]
         public void CheckInAnswersZeroDaysLateWhenReturnedBeforeDueDate()
         {
             var holding = new Holding { Classification = "X", BranchId = 1, CopyNumber = 1 };
@@ -176,7 +176,7 @@ namespace LibraryTest.Library.Models
             int branchId = 2;
             
             holding.CheckIn(date, branchId);
-            Assert.That(holding.DaysLate(), Is.EqualTo(0));
+            Assert.Equal(0, holding.DaysLate());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Library.Util;
-using NUnit.Framework;
+using Xunit;
+using Assert = Xunit.Assert;
 
 //Implementing the Soundex Algorithm--Test-First
 //
@@ -8,13 +9,13 @@ using NUnit.Framework;
 //be encoded to the same representation so that they can be matched
 //despite minor differences in spelling.
 //
-//Each [Test] method in SoundexTest.java describes a small increment
+//Each [Fact] method in SoundexTest.java describes a small increment
 //of behavior needed to build the Soundex algorithm.
 //
 // First: Remove the multiline comments around all the tests.
 //
 //For each test from top to bottom:
-//- Remove the [Ignore("")] annotation
+//- Remove the Skip annotation attribute.
 //- Run all tests. Ensure the newly-unignored (current) test fails,
 //  and that all other previously passing tests still pass.
 //- Write code in Soundex.java to get the current test to pass.
@@ -52,90 +53,85 @@ namespace LibraryTests.LibraryTest.Util
     {
         private Soundex soundex;
 
-        [SetUp]
-        public void Create()
+        public SoundexTest()
         {
             soundex = new Soundex();
         }
 
-        /*
-        [Test]
-        [Ignore("until you're ready to uncomment this test and get it to pass!")]
+        [Fact(Skip="until you're ready to uncomment this test and get it to pass!")]
         public void RetainsSoleLetterOfOneLetterWord()
         {
-            Assert.That(soundex.Encode("A"), Is.EqualTo("A000"));
+            Assert.Equal("A000", soundex.Encode("A"));
         }
 
-        [Test]
-        [Ignore("")]
+        [Fact(Skip="until ready")]
         public void ReplacesConsonantsWithAppropriateDigits()
         {
-            Assert.That(soundex.Encode("Ab"), Is.EqualTo("A100"));
+            Assert.Equal("A100", soundex.Encode("Ab"));
             // Uncomment each subsequent assertion, and get to pass, one at a time:
-            // Assert.That(soundex.encode("Bcdl"), Is.EqualTo("B234"));
-            // Assert.That(soundex.encode("Ajmr"), Is.EqualTo("A256"));
+            // Assert.Equal("B234", soundex.encode("Bcdl"));
+            // Assert.Equal("A256", soundex.encode("Ajmr"));
 
             // Prepare to discuss: Should we have multiple assertions in one test?
         }
 
-        [Test, Ignore("")]
+        [Fact(Skip="until ready")]
         public void LimitsLengthToFourCharacters()
         {
-            Assert.That(soundex.Encode("Dbcdlmr"), Is.EqualTo("D123"));
+            Assert.Equal("D123", soundex.Encode("Dbcdlmr"));
         }
 
-        [Test, Ignore("")]
-        public void IgnoresVowelLikeLetters()
+        [Fact(Skip="until ready")]
+        public void SkipsVowelLikeLetters()
         {
-            Assert.That(soundex.Encode("Faeiouhycts"), Is.EqualTo("F232"));
+            Assert.Equal("F232", soundex.Encode("Faeiouhycts"));
         }
 
-        [Test, Ignore("")]
+        [Fact(Skip="until ready")]
         public void CombinesDuplicateEncodingsAsSingleNumber()
         {
             // Prepare to discuss:
             // - What is the value of these three preconditions?
             // - What is the cost (tradeoff)? How do you feel about the design choice?
-            //Assert.That(soundex.toDigit('b'), Is.EqualTo(soundex.toDigit('f')));
-            //Assert.That(soundex.toDigit('c'), Is.EqualTo(soundex.toDigit('g')));
-            //Assert.That(soundex.toDigit('d'), Is.EqualTo(soundex.toDigit('t')));
+            //Assert.Equal(soundex.toDigit('f'), soundex.toDigit('b'));
+            //Assert.Equal(soundex.toDigit('g'), soundex.toDigit('c'));
+            //Assert.Equal(soundex.toDigit('t'), soundex.toDigit('d'));
 
-            Assert.That(soundex.Encode("Gbfcgdt"), Is.EqualTo("G123"));
+            Assert.Equal("G123", soundex.Encode("Gbfcgdt"));
         }
 
-        [Test, Ignore("")]
+        [Fact(Skip="until ready")]
         public void UppercasesFirstLetter()
         {
-            Assert.That(soundex.Encode("abcd"), Is.EqualTo("A123"));
+            Assert.Equal("A123", soundex.Encode("abcd"));
         }
 
-        [Test, Ignore("")]
-        public void IgnoresVowelLikeLettersRegardlessOfCase()
+        [Fact(Skip="until ready")]
+        public void SkipsVowelLikeLettersRegardlessOfCase()
         {
-            Assert.That(soundex.Encode("FcAEIOUHYts"), Is.EqualTo("F232"));
+            Assert.Equal("F232", soundex.Encode("FcAEIOUHYts"));
         }
 
-        [Test, Ignore("")]
+        [Fact(Skip="until ready")]
         public void ReplacesConsonantsWithAppropriateDigitsRegardlessOfCase()
         {
-            Assert.That(soundex.Encode("BCDL"), Is.EqualTo("B234"));
+            Assert.Equal("B234", soundex.Encode("BCDL"));
         }
 
-        [Test, Ignore("")]
+        [Fact(Skip="until ready")]
         public void CombinesDuplicateEncodingsWhenSecondLetterDuplicatesFirst()
         {
-            Assert.That(soundex.Encode("Bbcd"), Is.EqualTo("B230"));
+            Assert.Equal("B230", soundex.Encode("Bbcd"));
         }
 
-        [Test, Ignore("")]
+        [Fact(Skip="until ready")]
         public void DoesNotCombineDuplicateEncodingsSeparatedByVowels()
         {
-            Assert.That(soundex.Encode("Jbobby"), Is.EqualTo("J110"));
+            Assert.Equal("J110", soundex.Encode("Jbobby"));
         }
         // Congratulations if you made it this far!
         // Prepare to discuss:
         // - What other tests are missing?
         // - What were the costs and benefits of building Soundex incrementally?
-        */
     }
 }

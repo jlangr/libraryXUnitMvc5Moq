@@ -1,9 +1,9 @@
-using NUnit.Framework;
 using Library.Models;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTest.Library.Models
 {
-    [TestFixture]
     public class PatronTest
     {
         const int Id = 101;
@@ -11,35 +11,34 @@ namespace LibraryTest.Library.Models
         const int HoldingId = 2;
         private Patron patron;
 
-        [SetUp]
-        public void Initialize()
+        public PatronTest()
         {
             patron = new Patron(Id, Name);
         }
 
-        [Test]
+        [Fact]
         public void BalanceIsZeroOnCreation()
         {
-            Assert.That(patron.Balance, Is.Zero);
+            Assert.Equal(0, patron.Balance);
         }
 
-        [Test]
+        [Fact]
         public void FinesIncreaseBalance()
         {
             patron.Fine(0.10m);
-            Assert.That(patron.Balance, Is.EqualTo(0.10m));
+            Assert.Equal(0.10m, patron.Balance);
             patron.Fine(0.10m);
-            Assert.That(patron.Balance, Is.EqualTo(0.20m));
+            Assert.Equal(0.20m, patron.Balance);
         }
 
-        [Test]
+        [Fact]
         public void RemitReducesBalance()
         {
             patron.Fine(1.10m);
 
             patron.Remit(0.20m);
 
-            Assert.That(patron.Balance, Is.EqualTo(0.90m));
+            Assert.Equal(0.90m, patron.Balance);
         }
     }
 }

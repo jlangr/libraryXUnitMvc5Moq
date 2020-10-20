@@ -1,13 +1,13 @@
 using System;
-using NUnit.Framework;
 using Library.Models;
+using Xunit;
+using Assert = Xunit.Assert;
 
 namespace LibraryTest.Library.Models
 {
-    [TestFixture]
     public class CheckoutPolicyTest
     {
-        [Test]
+        [Fact]
         public void NotLateIfReturnedWithinMaxDays()
         {
             const int maxCheckoutDays = 5;
@@ -15,10 +15,10 @@ namespace LibraryTest.Library.Models
             var checkoutDate = DateTime.Now;
             var checkinDate = DateTime.Now.AddDays(maxCheckoutDays);
 
-            Assert.That(new StubCheckoutPolicy().DaysLate(checkoutDate, checkinDate, maxCheckoutDays), Is.Zero);
+            Assert.Equal(0, new StubCheckoutPolicy().DaysLate(checkoutDate, checkinDate, maxCheckoutDays));
         }
 
-        [Test]
+        [Fact]
         public void OneDayLate()
         {
             const int maxCheckoutDays = 5;
@@ -26,20 +26,20 @@ namespace LibraryTest.Library.Models
             var checkoutDate = DateTime.Now;
             var checkinDate = DateTime.Now.AddDays(maxCheckoutDays + 1);
 
-            Assert.That(new StubCheckoutPolicy().DaysLate(checkoutDate, checkinDate, maxCheckoutDays), Is.EqualTo(1));
+            Assert.Equal(1, new StubCheckoutPolicy().DaysLate(checkoutDate, checkinDate, maxCheckoutDays));
         }
 
-        [Test]
+        [Fact]
         public void ACoupleYearsLate()
         {
             const int maxCheckoutDays = 2;
             var checkoutDate = new DateTime(2017, 1, 1);
             var checkinDate = new DateTime(2019, 1, 1);
-            Assert.That(
-                new StubCheckoutPolicy().DaysLate(checkoutDate, checkinDate, maxCheckoutDays), Is.EqualTo(365 * 2 - 2));
+            Assert.Equal(365 * 2 - 2,
+                new StubCheckoutPolicy().DaysLate(checkoutDate, checkinDate, maxCheckoutDays));
         }
 
-        [Test]
+        [Fact]
         public void CalculatesFineFromDaysAndPeriod()
         {
             var policy = new StubCheckoutPolicy();
@@ -49,8 +49,8 @@ namespace LibraryTest.Library.Models
             var checkoutDate = DateTime.Now;
             var checkinDate = DateTime.Now.AddDays(policy.MaximumCheckoutDays() + daysLate);
 
-            Assert.That(policy.FineAmount(checkoutDate, checkinDate), Is.EqualTo(StubCheckoutPolicy.FixedFine));
-            Assert.That(StubCheckoutPolicy.LastDaysLate, Is.EqualTo(daysLate));
+            Assert.Equal(StubCheckoutPolicy.FixedFine, policy.FineAmount(checkoutDate, checkinDate));
+            Assert.Equal(daysLate, StubCheckoutPolicy.LastDaysLate);
         }
     }
 
