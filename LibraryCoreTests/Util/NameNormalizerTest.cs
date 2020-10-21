@@ -14,7 +14,7 @@ using Assert = Xunit.Assert;
 // 6. Is there another assertion that is commented out? Uncomment it. It should fail. Make it pass.
 // 7. Return to step 1.
 
-namespace LibraryTests.LibraryTest.Util
+namespace LibraryCoreTests.Util
 {
     public class NameNormalizerTest
     {

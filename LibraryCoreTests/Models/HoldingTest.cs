@@ -21,7 +21,7 @@ This test class is a mess. Some of the following opportunities for cleanup might
  */
 
 
-namespace LibraryTest.Library.Models
+namespace LibraryCoreTests.Models
 {
     public class HoldingTest
     {

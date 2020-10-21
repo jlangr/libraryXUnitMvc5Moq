@@ -1,8 +1,7 @@
-using NUnit.Framework;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace LibraryTests.LibraryTest.Util
+namespace LibraryCoreTests.Util
 {
     public class AutoTest
     {

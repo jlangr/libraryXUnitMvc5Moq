@@ -5,12 +5,11 @@ using Moq;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace LibraryTests.LibraryTest.Util
+namespace LibraryCoreTests.Util
 {
     public class DictionarySvc
     {
         public Auditor EventAuditor { get; set; }
-        public IEmail Emailer { get; internal set; }
 
         public virtual string LookUp(string key)
         {
@@ -95,7 +94,7 @@ namespace LibraryTests.LibraryTest.Util
         [Fact]
         public void X()
         {
-            var mock = new Moq.Mock<IList<string>>();
+            var mock = new Mock<IList<string>>();
             mock.Setup(l => l.Count).Returns(42);
             IList<string> list = mock.Object;
             Assert.Equal(42, list.Count);
@@ -132,7 +131,7 @@ namespace LibraryTests.LibraryTest.Util
         [Fact]
         public void Args3()
         {
-            var mock = new Moq.Mock<DictionarySvc>();
+            var mock = new Mock<DictionarySvc>();
             mock.Setup(x => x.StringStuff(It.IsAny<string>()))
                 .Returns((string s) => s.ToLower());
 
@@ -145,7 +144,7 @@ namespace LibraryTests.LibraryTest.Util
             // returning different values on each invocation
             var mock = new Mock<DictionarySvc>();
             var i = 0;
-            var definitions = new string[] { "a fish", "did smell" };
+            var definitions = new [] { "a fish", "did smell" };
             mock.Setup(d => d.LookUp("smelt"))
                 .Returns(() => definitions[i])
                 .Callback(() => i++);

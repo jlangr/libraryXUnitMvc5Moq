@@ -1,57 +1,55 @@
-﻿using NUnit.Framework;
+﻿using Library.ControllerHelpers;
 using Library.Controllers;
 using Library.Extensions.SystemWebMvcController;
 using Library.Models;
 using Library.Models.Repositories;
-using Library.ControllerHelpers;
-using Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Xunit;
+using Assert = Xunit.Assert;
 
-namespace LibraryTest.Library.Controllers
+namespace LibraryCoreTests.Controllers
 {
-    [TestFixture]
     public class HoldingsControllerTest
     {
         HoldingsController controller;
         IRepository<Holding> holdingRepo;
         IRepository<Branch> branchRepo;
 
-        [SetUp]
-        public void Initialize()
+        public HoldingsControllerTest()
         {
             holdingRepo = new InMemoryRepository<Holding>();
             branchRepo = new InMemoryRepository<Branch>();
             controller = new HoldingsController(holdingRepo, branchRepo);
         }
 
-        [Test]
+        [Fact]
         public void CreatePersistsHolding()
         {
             controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1 });
 
             var holding = HoldingsControllerUtil.FindByBarcode(holdingRepo, "AB123:1");
-            Assert.That(holding.Barcode, Is.EqualTo("AB123:1"));
+            Assert.Equal("AB123:1", holding.Barcode);
         }
 
-        [Test]
+        [Fact]
         public void CreateReturnsGeneratedId()
         {
             var result = controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1 }) as RedirectToRouteResult;
 
             var id = (int)result.RouteValues["ID"];
-            Assert.That(holdingRepo.GetByID(id).Barcode, Is.EqualTo("AB123:1"));
+            Assert.Equal("AB123:1", holdingRepo.GetByID(id).Barcode);
         }
 
-        [Test]
+        [Fact]
         public void CreateAssignsCopyNumberWhenNotProvided()
         {
             controller.Create(new Holding() { Classification = "AB123", CopyNumber = 0 });
 
             var holding = HoldingsControllerUtil.FindByBarcode(holdingRepo, "AB123:1");
-            Assert.That(holding.Barcode, Is.EqualTo("AB123:1"));
+            Assert.Equal("AB123:1", holding.Barcode);
         }
 
-        [Test]
+        [Fact]
         public void CreateUsesHighwaterCopyNumberWhenAssigning()
         {
             controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1, HeldByPatronId = 1});
@@ -59,10 +57,10 @@ namespace LibraryTest.Library.Controllers
             controller.Create(new Holding() { Classification = "AB123", CopyNumber = 0, HeldByPatronId = 2 });
 
             var holding = HoldingsControllerUtil.FindByBarcode(holdingRepo, "AB123:2");
-            Assert.That(holding.HeldByPatronId, Is.EqualTo(2));
+            Assert.Equal(2, holding.HeldByPatronId);
         }
 
-        [Test]
+        [Fact]
         public void CreateUsesHighwaterOnlyForBooksWithSameClassification()
         {
             controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1, HeldByPatronId = 1});
@@ -70,21 +68,21 @@ namespace LibraryTest.Library.Controllers
             controller.Create(new Holding() { Classification = "XX999", CopyNumber = 0, HeldByPatronId = 2 });
 
             var holding = HoldingsControllerUtil.FindByBarcode(holdingRepo, "XX999:1");
-            Assert.That(holding.HeldByPatronId, Is.EqualTo(2));
+            Assert.Equal(2, holding.HeldByPatronId);
         }
 
-        [Test]
+        [Fact]
         public void CreateErrorsWhenAddingDuplicateBarcode()
         {
             controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1 });
 
-            var result = controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1 }); // as ViewResult;
+            controller.Create(new Holding() { Classification = "AB123", CopyNumber = 1 }); // as ViewResult;
 
-            Assert.That(controller.SoleErrorMessage(HoldingsController.ModelKey), Is.EqualTo("Duplicate classification / copy number combination."));
+            Assert.Equal("Duplicate classification / copy number combination.", controller.SoleErrorMessage(HoldingsController.ModelKey));
         }
 
         // TODO ?? 
-        [Test]
+        [Fact]
         public void PopulatesViewModelWithBranchName()
         {
             var branchId = branchRepo.Create(new Branch { Name = "branch123" });

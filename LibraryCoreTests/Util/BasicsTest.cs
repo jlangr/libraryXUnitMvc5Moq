@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace LibraryTests.LibraryTest.Util
+namespace LibraryCoreTests.Util
 {
     public class BasicsTest
     {

@@ -1,28 +1,26 @@
-﻿using Library.Controllers;
+﻿using System;
+using Library.Controllers;
 using Library.Extensions.SystemWebMvcController;
 using Library.Models;
 using Library.Models.Repositories;
 using Library.Util;
-using NUnit.Framework;
-using System;
 using Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Xunit;
+using Assert = Xunit.Assert;
 
-namespace LibraryTest.Library.Controllers
+namespace LibraryCoreTests.Controllers
 {
-    [TestFixture]
     public class CheckInControllerTest
     {
         private InMemoryRepository<Branch> branchRepo;
-        private CheckInViewModel checkin;
         private CheckInController controller;
         private InMemoryRepository<Holding> holdingRepo;
         private InMemoryRepository<Patron> patronRepo;
         private int someValidBranchId;
         private int someValidPatronId;
 
-        [SetUp]
-        public void Initialize()
+        public CheckInControllerTest()
         {
             holdingRepo = new InMemoryRepository<Holding>();
 
@@ -32,28 +30,27 @@ namespace LibraryTest.Library.Controllers
             patronRepo = new InMemoryRepository<Patron>();
 
             controller = new CheckInController(branchRepo, holdingRepo, patronRepo);
-            checkin = new CheckInViewModel();
         }
 
-        class CheckInGeneratesError: CheckInControllerTest
+        public class CheckInGeneratesErrorTest: CheckInControllerTest
         {
-            [Test]
+            [Fact]
             public void WhenHoldingWithBarcodeDoesNotExist()
             {
-                var result = controller.Index(new CheckInViewModel { Barcode = "NONEXISTENT:42", BranchId = someValidBranchId }); // as ViewResult;
+                controller.Index(new CheckInViewModel { Barcode = "NONEXISTENT:42", BranchId = someValidBranchId }); // as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckInController.ModelKey), Is.EqualTo("Invalid holding barcode."));
+                Assert.Equal("Invalid holding barcode.", controller.SoleErrorMessage(CheckInController.ModelKey));
             }
 
-            [Test]
+            [Fact]
             public void WhenHoldingBarcodeIsInvalid()
             {
                 var result = controller.Index(new CheckInViewModel { Barcode = "BADFORMAT", BranchId = someValidBranchId }); //as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckInController.ModelKey), Is.EqualTo("Invalid holding barcode format."));
+                Assert.Equal("Invalid holding barcode format.", controller.SoleErrorMessage(CheckInController.ModelKey));
             }
 
-            [Test]
+            [Fact]
             public void WhenHoldingAlreadyCheckedIn()
             {
                 holdingRepo.Create(new Holding { Classification = "X", CopyNumber = 1, BranchId = 1 });
@@ -61,30 +58,34 @@ namespace LibraryTest.Library.Controllers
                 var result = controller.Index(new CheckInViewModel {Barcode = "X:1", BranchId = someValidBranchId});
                     // as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckInController.ModelKey), Is.EqualTo("Holding is already checked in."));
+                Assert.Equal("Holding is already checked in.", controller.SoleErrorMessage(CheckInController.ModelKey));
             }
         }
 
-        class WhenCheckInSucceeds : CheckInControllerTest
+        public class WhenCheckInSucceedsTest : CheckInControllerTest
         {
             private Holding aCheckedOutHolding;
             private DateTime now;
 
-            [SetUp]
+            public WhenCheckInSucceedsTest()
+            {
+                CreateCheckedOutHolding();
+                CreateValidPatron();
+                FixTimeService();
+            }
+
             public void CreateCheckedOutHolding()
             {
                 var aHoldingId = holdingRepo.Create(new Holding { Classification = "ABC", CopyNumber = 1, BranchId = Branch.CheckedOutId, HeldByPatronId = someValidPatronId });
                 aCheckedOutHolding = holdingRepo.GetByID(aHoldingId);
             }
 
-            [SetUp]
             public void CreateValidPatron()
             {
                 var someValidPatron = new Patron { Name = "X" };
                 someValidPatronId = patronRepo.Create(someValidPatron);
             }
 
-            [SetUp]
             public void FixTimeService()
             {
                 now = DateTime.Now;
@@ -97,42 +98,42 @@ namespace LibraryTest.Library.Controllers
                     as RedirectToRouteResult;
             }
 
-            [Test]
+            [Fact]
             public void ThenHoldingBranchIsUpdated()
             {
                 CheckInHolding();
 
-                Assert.That(holdingRepo.GetByID(aCheckedOutHolding.Id).BranchId, Is.EqualTo(someValidBranchId));
+                Assert.Equal(someValidBranchId, holdingRepo.GetByID(aCheckedOutHolding.Id).BranchId);
             }
 
-            [Test]
+            [Fact]
             public void ThenHoldingIsNotCheckedOut()
             {
                 CheckInHolding();
 
-                Assert.That(holdingRepo.GetByID(aCheckedOutHolding.Id).IsCheckedOut, Is.False);
+                Assert.False(holdingRepo.GetByID(aCheckedOutHolding.Id).IsCheckedOut);
             }
 
-            [Test]
+            [Fact]
             public void ThenHoldingPatronIsCleared()
             {
                 CheckInHolding();
 
-                Assert.That(holdingRepo.GetByID(aCheckedOutHolding.Id).HeldByPatronId, Is.EqualTo(Holding.NoPatron));
+                Assert.Equal(Holding.NoPatron, holdingRepo.GetByID(aCheckedOutHolding.Id).HeldByPatronId);
             }
 
-            [Test]
+            [Fact]
             public void ThenHoldingLastDateCheckedInIsUpdated()
             {
                 CheckInHolding();
 
-                Assert.That(holdingRepo.GetByID(aCheckedOutHolding.Id).LastCheckedIn, Is.EqualTo(now));
+                Assert.Equal(now, holdingRepo.GetByID(aCheckedOutHolding.Id).LastCheckedIn);
             }
 
-            [Test]
+            [Fact]
             public void ThenRedirectsToIndex()
             {
-                Assert.That(CheckInHolding().RouteValues["action"], Is.EqualTo("Index"));
+                Assert.Equal("Index", CheckInHolding().RouteValues["action"]);
             }
         }
 

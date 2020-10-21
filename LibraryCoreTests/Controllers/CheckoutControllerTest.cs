@@ -1,14 +1,14 @@
-﻿using NUnit.Framework;
+﻿using System;
 using Library.Controllers;
+using Library.Extensions.SystemWebMvcController;
 using Library.Models;
 using Library.Models.Repositories;
-using Library.Extensions.SystemWebMvcController;
-using System;
 using Microsoft.AspNetCore.Mvc;
+using Xunit;
+using Assert = Xunit.Assert;
 
-namespace LibraryTest.Library.Controllers
+namespace LibraryCoreTests.Controllers
 {
-    [TestFixture]
     public class CheckOutControllerTest
     {
         CheckOutController controller;
@@ -19,8 +19,7 @@ namespace LibraryTest.Library.Controllers
         private int someValidPatronId;
         private Holding aCheckedInHolding;
 
-        [SetUp]
-        public void Initialize()
+        public CheckOutControllerTest()
         {
             holdingRepo = new InMemoryRepository<Holding>();
 
@@ -32,80 +31,80 @@ namespace LibraryTest.Library.Controllers
 
             controller = new CheckOutController(branchRepo, holdingRepo, patronRepo);
             checkout = new CheckOutViewModel();
+            
+            CreateCheckedInHolding();
         }
 
-        [SetUp]
         public void CreateCheckedInHolding()
         {
             aCheckedInHolding = new Holding { Classification = "ABC", CopyNumber = 1 };
             aCheckedInHolding.CheckIn(DateTime.Now, someValidBranchId);
         }
 
-        class CheckOutGeneratesError : CheckOutControllerTest
+        public class CheckOutGeneratesError : CheckOutControllerTest
         {
-            [Test]
+            [Fact]
             public void WhenPatronIdInvalid()
             {
-                var result = controller.Index(new CheckOutViewModel { PatronId = 0, Barcode = aCheckedInHolding.Barcode }); // as ViewResult;
+                controller.Index(new CheckOutViewModel { PatronId = 0, Barcode = aCheckedInHolding.Barcode }); // as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckOutController.ModelKey), Is.EqualTo("Invalid patron ID."));
+                Assert.Equal("Invalid patron ID.", controller.SoleErrorMessage(CheckOutController.ModelKey));
             }
 
-            [Test]
+            [Fact]
             public void WhenNoHoldingFoundForBarcode()
             {
-                var result = controller.Index(new CheckOutViewModel { Barcode = "NONEXISTENT:1", PatronId = someValidPatronId }); // as ViewResult;
+                controller.Index(new CheckOutViewModel { Barcode = "NONEXISTENT:1", PatronId = someValidPatronId }); // as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckOutController.ModelKey), Is.EqualTo("Invalid holding barcode."));
+                Assert.Equal("Invalid holding barcode.", controller.SoleErrorMessage(CheckOutController.ModelKey));
             }
 
-            [Test]
+            [Fact]
             public void WhenHoldingAlreadyCheckedOut()
             {
                 holdingRepo.Create(aCheckedInHolding);
                 checkout = new CheckOutViewModel { Barcode = aCheckedInHolding.Barcode, PatronId = someValidPatronId };
                 controller.Index(checkout);
 
-                var result = controller.Index(checkout); // as ViewResult;
+                controller.Index(checkout); // as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckOutController.ModelKey), Is.EqualTo("Holding is already checked out."));
+                Assert.Equal("Holding is already checked out.", controller.SoleErrorMessage(CheckOutController.ModelKey));
             }
 
-            [Test]
+            [Fact]
             public void WhenBarcodeHasInvalidFormat()
             {
-                var result = controller.Index(new CheckOutViewModel { Barcode = "HasNoColon", PatronId = someValidPatronId }); // as ViewResult;
+                controller.Index(new CheckOutViewModel { Barcode = "HasNoColon", PatronId = someValidPatronId }); // as ViewResult;
 
-                Assert.That(controller.SoleErrorMessage(CheckOutController.ModelKey), Is.EqualTo("Invalid holding barcode format."));
+                Assert.Equal("Invalid holding barcode format.", controller.SoleErrorMessage(CheckOutController.ModelKey));
             }
         }
 
-        class WhenCheckoutSucceeds: CheckOutControllerTest
+        public class WhenCheckoutSucceedsTest: CheckOutControllerTest
         {
             private int holdingId;
 
-            [SetUp]
-            public void CreateSuccessfulCheckout()
+            public WhenCheckoutSucceedsTest()
             {
                 holdingId = holdingRepo.Create(aCheckedInHolding);
                 checkout = new CheckOutViewModel { Barcode = aCheckedInHolding.Barcode, PatronId = someValidPatronId };
             }
 
-            [Test]
+            [Fact]
             public void ThenMarksHoldingAsCheckedOut()
             {
                 controller.Index(checkout);
 
                 var retrievedHolding = holdingRepo.GetByID(holdingId);
-                Assert.That(retrievedHolding.IsCheckedOut);
+                Assert.True(retrievedHolding.IsCheckedOut);
             }
 
-            [Test]
+            [Fact]
             public void ThenRedirectsToIndex()
             {
                 var result = controller.Index(checkout) as RedirectToRouteResult;
 
-                Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+                Assert.Equal("Index", result?.RouteValues["action"]);
             }
         }
     }

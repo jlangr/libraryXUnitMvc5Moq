@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Models;
 using Library.Models.Repositories;
-using System.Collections.Generic;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace LibraryTests.LibraryTest.Models.Repositories
+namespace LibraryCoreTests.Models.Repositories
 {
     public class BranchRepositoryExtensionsTest
     {

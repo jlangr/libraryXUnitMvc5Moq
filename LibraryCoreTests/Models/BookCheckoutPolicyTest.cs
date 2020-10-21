@@ -2,7 +2,7 @@ using System;
 using Library.Models;
 using Xunit;
 
-namespace LibraryTest.Library.Models
+namespace LibraryCoreTests.Models
 {
     public class BookCheckoutPolicyTest
     {

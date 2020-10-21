@@ -2,7 +2,7 @@ using Library.Models;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace LibraryTest.Library.Models
+namespace LibraryCoreTests.Models
 {
     public class MovieCheckoutPolicyTest
     {

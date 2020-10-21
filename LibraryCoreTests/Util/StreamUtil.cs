@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace LibraryTests.LibraryTest.Util
+namespace LibraryCoreTests.Util
 {
     public class StreamUtil
     {

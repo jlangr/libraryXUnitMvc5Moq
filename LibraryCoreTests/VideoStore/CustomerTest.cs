@@ -1,8 +1,9 @@
-﻿using Xunit;
+﻿using Library.VideoStore;
+using Xunit;
 using Assert = Xunit.Assert;
 using Env = System.Environment;
 
-namespace Library.VideoStore
+namespace LibraryCoreTests.VideoStore
 {
     public class CustomerTest
     {

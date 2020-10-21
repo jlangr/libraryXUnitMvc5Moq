@@ -4,7 +4,7 @@ using Library.Models.Repositories;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace LibraryTests.LibraryTest.Models.Repositories
+namespace LibraryCoreTests.Models.Repositories
 {
     public class HoldingRepositoryTest
     {

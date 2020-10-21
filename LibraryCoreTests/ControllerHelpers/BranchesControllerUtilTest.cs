@@ -1,20 +1,21 @@
-﻿using NUnit.Framework;
-using Library.ControllerHelpers;
+﻿using Library.ControllerHelpers;
 using Library.Models;
 using Library.Models.Repositories;
+using Xunit;
+using Assert = Xunit.Assert;
 
-namespace LibraryTest.Library.ControllerHelpers
+namespace LibraryCoreTests.ControllerHelpers
 {
     public class BranchesControllerUtilTest
     {
-        [Test]
+        [Fact]
         public void BranchNameForCheckedOutBranch()
         {
-            Assert.That(BranchesControllerUtil.BranchName(new InMemoryRepository<Branch>(), Branch.CheckedOutId),
-                Is.EqualTo(BranchesControllerUtil.CheckedOutBranchName));
+            Assert.Equal(BranchesControllerUtil.CheckedOutBranchName, 
+                BranchesControllerUtil.BranchName(new InMemoryRepository<Branch>(), Branch.CheckedOutId));
         }
 
-        [Test]
+        [Fact]
         public void BranchNameForBranch()
         {
             var branchRepo = new InMemoryRepository<Branch>();
@@ -22,7 +23,7 @@ namespace LibraryTest.Library.ControllerHelpers
 
             var branchName = BranchesControllerUtil.BranchName(branchRepo, branchId);
 
-            Assert.That(branchName, Is.EqualTo("NewBranchName"));
+            Assert.Equal("NewBranchName", branchName);
         }
     }
 }

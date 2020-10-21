@@ -1,29 +1,23 @@
 ﻿using Library.ControllerHelpers;
 using Library.Models;
 using Library.Models.Repositories;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Xunit;
+using Assert = Xunit.Assert;
 
-namespace LibraryTests.LibraryTest.ControllerHelpers
+namespace LibraryCoreTests.ControllerHelpers
 {
-    [TestFixture]
     public class HoldingsControllerUtilTest
     {
         IRepository<Holding> holdingRepo;
 
-        [SetUp]
-        public void createRepo()
+        public HoldingsControllerUtilTest()
         {
             holdingRepo = new InMemoryRepository<Holding>();
         }
 
-        class NextAvailableCopyNumber : HoldingsControllerUtilTest
+        public class NextAvailableCopyNumber : HoldingsControllerUtilTest
         {
-            [Test]
+            [Fact]
             public void NextAvailableCopyNumberIncrementsCopyNumberUsingCount()
             {
                 holdingRepo.Create(new Holding("AB123:1"));
@@ -32,33 +26,32 @@ namespace LibraryTests.LibraryTest.ControllerHelpers
 
                 var copyNumber = HoldingsControllerUtil.NextAvailableCopyNumber(holdingRepo, "AB123");
 
-                Assert.That(copyNumber, Is.EqualTo(3));
+                Assert.Equal(3, copyNumber);
             }
         }
 
-        class FindByBarcodeOrBarcodeDetails : HoldingsControllerUtilTest
+        public class FindByBarcodeOrBarcodeDetailsTest : HoldingsControllerUtilTest
         {
             int idForAB123_2;
             int idForXX123_1;
 
-            [SetUp]
-            public void AddSomeHoldings()
+            public FindByBarcodeOrBarcodeDetailsTest()
             {
                 holdingRepo.Create(new Holding("AB123:1"));
                 idForAB123_2 = holdingRepo.Create(new Holding("AB123:2"));
                 idForXX123_1 = holdingRepo.Create(new Holding("XX123:1"));
             }
 
-            [Test]
+            [Fact]
             public void ByBarcodeReturnsMatchingHolding()
             {
-                Assert.That(HoldingsControllerUtil.FindByBarcode(holdingRepo, "AB123:2").Id, Is.EqualTo(idForAB123_2));
+                Assert.Equal(idForAB123_2, HoldingsControllerUtil.FindByBarcode(holdingRepo, "AB123:2").Id);
             }
 
-            [Test]
+            [Fact]
             public void ByClassificationAndCopyReturnsMatchingHolding()
             {
-                Assert.That(HoldingsControllerUtil.FindByClassificationAndCopy(holdingRepo, "XX123", 1).Id, Is.EqualTo(idForXX123_1));
+                Assert.Equal(idForXX123_1, HoldingsControllerUtil.FindByClassificationAndCopy(holdingRepo, "XX123", 1).Id);
             }
         }
     }

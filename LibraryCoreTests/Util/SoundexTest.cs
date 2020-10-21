@@ -47,7 +47,7 @@ using Assert = Xunit.Assert;
 //4. Continue until you have one letter and three numbers. If you run out of letters, fill
 //   in 0s until there are three numbers.
 
-namespace LibraryTests.LibraryTest.Util
+namespace LibraryCoreTests.Util
 {
     public class SoundexTest
     {
