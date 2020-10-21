@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library.Models
+namespace LibraryCore.Models
 {
     public class MasterClassificationService : IClassificationService
     {

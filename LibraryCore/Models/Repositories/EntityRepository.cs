@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-namespace Library.Models.Repositories
+namespace LibraryCore.Models.Repositories
 {
     public class EntityRepository<T> : IRepository<T>
         where T: class, Identifiable

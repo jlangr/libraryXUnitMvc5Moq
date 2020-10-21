@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Library.Util
+namespace LibraryCore.Util
 {
     public static class CollectionUtil
     {

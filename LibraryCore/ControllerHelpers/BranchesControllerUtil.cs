@@ -1,6 +1,7 @@
-﻿using Library.Models;
+﻿using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
 
-namespace Library.ControllerHelpers
+namespace LibraryCore.ControllerHelpers
 {
     public class BranchesControllerUtil
     {

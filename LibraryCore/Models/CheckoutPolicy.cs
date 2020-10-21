@@ -1,6 +1,6 @@
 using System;
 
-namespace Library.Models
+namespace LibraryCore.Models
 {
     [Serializable]
     public abstract class CheckoutPolicy

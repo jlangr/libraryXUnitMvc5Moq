@@ -1,6 +1,6 @@
 using System;
 
-namespace Library.Models
+namespace LibraryCore.Models
 {
     public class LibraryException: ApplicationException
     {

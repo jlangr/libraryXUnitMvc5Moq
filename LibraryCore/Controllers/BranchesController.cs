@@ -1,10 +1,10 @@
-﻿using Library.Models;
-using Library.Models.Repositories;
+﻿using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using ActionResult = Microsoft.AspNetCore.Mvc.ActionResult;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
-namespace Library.Controllers
+namespace LibraryCore.Controllers
 {
     public class BranchesController : Controller
     {

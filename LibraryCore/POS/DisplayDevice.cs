@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Library.POS
+namespace LibraryCore.POS
 {
     internal class DisplayDevice
     {

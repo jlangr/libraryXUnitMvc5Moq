@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Library.Util
+namespace LibraryCore.Util
 {
     public static class ListUtil
     {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Library.ControllerHelpers;
-using Library.Models;
-using Library.Models.Repositories;
-using Library.Scanner;
-using Library.Util;
+using LibraryCore.ControllerHelpers;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
+using LibraryCore.Scanner;
+using LibraryCore.Util;
 using Moq;
 using Xunit;
 using Assert = Xunit.Assert;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Library.Models;
-using Library.Models.Repositories;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
 using Xunit;
 using Assert = Xunit.Assert;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Library.VideoStore
+﻿namespace LibraryCore.VideoStore
 {
     public class Movie
     {

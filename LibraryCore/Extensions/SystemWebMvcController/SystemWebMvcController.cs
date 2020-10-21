@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Library.Extensions.SystemWebMvcController
+namespace LibraryCore.Extensions.SystemWebMvcController
 {
     public static class Extensions
     {

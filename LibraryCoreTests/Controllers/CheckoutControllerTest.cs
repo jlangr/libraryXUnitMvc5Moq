@@ -1,8 +1,9 @@
 ﻿using System;
-using Library.Controllers;
-using Library.Extensions.SystemWebMvcController;
-using Library.Models;
-using Library.Models.Repositories;
+using LibraryCore.Controllers;
+using LibraryCore.Extensions.SystemWebMvcController;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
+using LibraryCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using Assert = Xunit.Assert;

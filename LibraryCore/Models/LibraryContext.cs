@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
-namespace Library.Models
+namespace LibraryCore.Models
 {
     public class LibraryContext : DbContext
     {
@@ -19,10 +15,10 @@ namespace Library.Models
         {
         }
 
-        public System.Data.Entity.DbSet<Library.Models.Patron> Patrons { get; set; }
+        public System.Data.Entity.DbSet<Patron> Patrons { get; set; }
 
-        public System.Data.Entity.DbSet<Library.Models.Branch> Branches { get; set; }
+        public System.Data.Entity.DbSet<Branch> Branches { get; set; }
 
-        public System.Data.Entity.DbSet<Library.Models.Holding> Holdings { get; set; }
+        public System.Data.Entity.DbSet<Holding> Holdings { get; set; }
     }
 }

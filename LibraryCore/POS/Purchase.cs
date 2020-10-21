@@ -1,4 +1,4 @@
-﻿namespace Library.POS
+﻿namespace LibraryCore.POS
 {
     internal class Purchase
     {

@@ -1,4 +1,4 @@
-using Library.Models;
+using LibraryCore.Models;
 using Xunit;
 using Assert = Xunit.Assert;
 

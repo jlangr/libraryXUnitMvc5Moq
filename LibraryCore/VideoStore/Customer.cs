@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Library.VideoStore
+namespace LibraryCore.VideoStore
 {
     public class Customer
     {

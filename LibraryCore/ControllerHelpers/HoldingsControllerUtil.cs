@@ -1,7 +1,8 @@
-﻿using Library.Models;
-using System.Linq;
+﻿using System.Linq;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
 
-namespace Library.ControllerHelpers
+namespace LibraryCore.ControllerHelpers
 {
     public class HoldingsControllerUtil
     {

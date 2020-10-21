@@ -1,6 +1,6 @@
 using System;
 
-namespace Library.Util
+namespace LibraryCore.Util
 {
     public static class TimeService
     {

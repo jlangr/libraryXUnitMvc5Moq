@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Library.Models;
-using Library.Models.Repositories;
-using Library.Util;
-using Library.ControllerHelpers;
-using Library.ViewModels;
+using LibraryCore.ControllerHelpers;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
+using LibraryCore.Util;
+using LibraryCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Library.Controllers
+namespace LibraryCore.Controllers
 {
     public class CheckInController: Controller
     {

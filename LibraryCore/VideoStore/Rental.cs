@@ -1,4 +1,4 @@
-﻿namespace Library.VideoStore
+﻿namespace LibraryCore.VideoStore
 {
     public class Rental
     {

@@ -1,4 +1,4 @@
-namespace Library.Models
+namespace LibraryCore.Models
 {
     public interface IClassificationService
     {

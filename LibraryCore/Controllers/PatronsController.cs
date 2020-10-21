@@ -1,10 +1,10 @@
-﻿using Library.Models;
-using Library.Models.Repositories;
-using System.Collections.Generic;
-using Library.ViewModels;
+﻿using System.Collections.Generic;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
+using LibraryCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Library.Controllers
+namespace LibraryCore.Controllers
 {
     public class PatronsController : Controller
     {

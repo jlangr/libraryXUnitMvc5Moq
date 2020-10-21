@@ -1,6 +1,7 @@
 using System.Collections;
+using LibraryCore.Models;
 
-namespace Library.Models
+namespace LibraryCore.ViewModels
 {
     public class BranchesViewModel
     {

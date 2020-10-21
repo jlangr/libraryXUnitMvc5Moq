@@ -1,10 +1,10 @@
 using System;
-using Library.Util;
-using Library.Models;
-using Library.Models.Repositories;
-using Library.ControllerHelpers;
+using LibraryCore.ControllerHelpers;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
+using LibraryCore.Util;
 
-namespace Library.Scanner
+namespace LibraryCore.Scanner
 {
     public class ScanStation
     {

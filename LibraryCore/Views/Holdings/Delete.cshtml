@@ -1,4 +1,4 @@
-﻿@model Library.Models.Holding
+﻿@model LibraryCore.Models.Holding
 
 @{
     ViewBag.Title = "Delete";
@@ -11,54 +11,23 @@
     <h4>Holding</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Classification)
-        </dt>
+        <dt> @Html.DisplayNameFor(model => model.Classification) </dt>
+        <dd> @Html.DisplayFor(model => model.Classification) </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Classification)
-        </dd>
+        <dt> @Html.DisplayNameFor(model => model.CopyNumber) </dt>
+        <dd> @Html.DisplayFor(model => model.CopyNumber) </dd>
+        
+        <dt> @Html.DisplayNameFor(model => model.CheckOutTimestamp) </dt>
+        <dd> @Html.DisplayFor(model => model.CheckOutTimestamp) </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CopyNumber)
-        </dt>
+        <dt> @Html.DisplayNameFor(model => model.BranchId) </dt>
+        <dd> @Html.DisplayFor(model => model.BranchId) </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CopyNumber)
-        </dd>
+        <dt> @Html.DisplayNameFor(model => model.HeldByPatronId) </dt>
+        <dd> @Html.DisplayFor(model => model.HeldByPatronId) </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CheckOutTimestamp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CheckOutTimestamp)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BranchId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BranchId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HeldByPatronId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HeldByPatronId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastCheckedIn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastCheckedIn)
-        </dd>
-
+        <dt> @Html.DisplayNameFor(model => model.LastCheckedIn) </dt>
+        <dd> @Html.DisplayFor(model => model.LastCheckedIn) </dd>
     </dl>
 
     @using (Html.BeginForm()) {

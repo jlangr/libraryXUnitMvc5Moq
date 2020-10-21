@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Library.Controllers;
-using Library.Models;
-using Library.Models.Repositories;
+using LibraryCore.Controllers;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
+using LibraryCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using Assert = Xunit.Assert;

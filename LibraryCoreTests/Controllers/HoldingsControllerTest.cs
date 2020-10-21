@@ -1,8 +1,8 @@
-﻿using Library.ControllerHelpers;
-using Library.Controllers;
-using Library.Extensions.SystemWebMvcController;
-using Library.Models;
-using Library.Models.Repositories;
+﻿using LibraryCore.ControllerHelpers;
+using LibraryCore.Controllers;
+using LibraryCore.Extensions.SystemWebMvcController;
+using LibraryCore.Models;
+using LibraryCore.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using Assert = Xunit.Assert;

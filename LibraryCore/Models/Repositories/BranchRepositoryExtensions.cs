@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Library.Models.Repositories
+namespace LibraryCore.Models.Repositories
 {
     public static class BranchRepositoryExtensions
     {

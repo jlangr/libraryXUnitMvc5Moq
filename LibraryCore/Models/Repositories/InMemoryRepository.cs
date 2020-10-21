@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Library.Models.Repositories
+namespace LibraryCore.Models.Repositories
 {
     public class InMemoryRepository<T> : IRepository<T>
         where T : Identifiable

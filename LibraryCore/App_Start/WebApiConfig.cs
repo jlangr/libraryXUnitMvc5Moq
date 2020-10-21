@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace Library.App_Start
+namespace LibraryCore
 {
     public static class WebApiConfig
     {

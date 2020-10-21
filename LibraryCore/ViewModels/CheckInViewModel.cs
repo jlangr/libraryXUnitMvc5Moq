@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Library.Models;
+using LibraryCore.Models;
 
-namespace Library.ViewModels
+namespace LibraryCore.ViewModels
 {
     public class CheckInViewModel
     {
