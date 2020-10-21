@@ -25,19 +25,20 @@ namespace LibraryCoreTests.Controllers
             holdingRepo = new InMemoryRepository<Holding>();
 
             branchRepo = new InMemoryRepository<Branch>();
-            someValidBranchId = branchRepo.Create(new Branch() { Name = "b" });
+            someValidBranchId = branchRepo.Create(new Branch() {Name = "b"});
 
             patronRepo = new InMemoryRepository<Patron>();
 
             controller = new CheckInController(branchRepo, holdingRepo, patronRepo);
         }
 
-        public class CheckInGeneratesErrorTest: CheckInControllerTest
+        public class CheckInGeneratesErrorTest : CheckInControllerTest
         {
             [Fact]
             public void WhenHoldingWithBarcodeDoesNotExist()
             {
-                controller.Index(new CheckInViewModel { Barcode = "NONEXISTENT:42", BranchId = someValidBranchId }); // as ViewResult;
+                controller.Index(new CheckInViewModel
+                    {Barcode = "NONEXISTENT:42", BranchId = someValidBranchId}); // as ViewResult;
 
                 Assert.Equal("Invalid holding barcode.", controller.SoleErrorMessage(CheckInController.ModelKey));
             }
@@ -45,18 +46,21 @@ namespace LibraryCoreTests.Controllers
             [Fact]
             public void WhenHoldingBarcodeIsInvalid()
             {
-                var result = controller.Index(new CheckInViewModel { Barcode = "BADFORMAT", BranchId = someValidBranchId }); //as ViewResult;
+                var result =
+                    controller.Index(new CheckInViewModel
+                        {Barcode = "BADFORMAT", BranchId = someValidBranchId}); //as ViewResult;
 
-                Assert.Equal("Invalid holding barcode format.", controller.SoleErrorMessage(CheckInController.ModelKey));
+                Assert.Equal("Invalid holding barcode format.",
+                    controller.SoleErrorMessage(CheckInController.ModelKey));
             }
 
             [Fact]
             public void WhenHoldingAlreadyCheckedIn()
             {
-                holdingRepo.Create(new Holding { Classification = "X", CopyNumber = 1, BranchId = 1 });
+                holdingRepo.Create(new Holding {Classification = "X", CopyNumber = 1, BranchId = 1});
 
                 var result = controller.Index(new CheckInViewModel {Barcode = "X:1", BranchId = someValidBranchId});
-                    // as ViewResult;
+                // as ViewResult;
 
                 Assert.Equal("Holding is already checked in.", controller.SoleErrorMessage(CheckInController.ModelKey));
             }
@@ -74,19 +78,24 @@ namespace LibraryCoreTests.Controllers
                 FixTimeService();
             }
 
-            public void CreateCheckedOutHolding()
+            private void CreateCheckedOutHolding()
             {
-                var aHoldingId = holdingRepo.Create(new Holding { Classification = "ABC", CopyNumber = 1, BranchId = Branch.CheckedOutId, HeldByPatronId = someValidPatronId });
+                var aHoldingId = holdingRepo.Create(
+                    new Holding
+                    {
+                        Classification = "ABC", CopyNumber = 1, BranchId = Branch.CheckedOutId,
+                        HeldByPatronId = someValidPatronId
+                    });
                 aCheckedOutHolding = holdingRepo.GetByID(aHoldingId);
             }
 
-            public void CreateValidPatron()
+            private void CreateValidPatron()
             {
-                var someValidPatron = new Patron { Name = "X" };
+                var someValidPatron = new Patron {Name = "X"};
                 someValidPatronId = patronRepo.Create(someValidPatron);
             }
 
-            public void FixTimeService()
+            private void FixTimeService()
             {
                 now = DateTime.Now;
                 TimeService.NextTime = now;
@@ -94,7 +103,8 @@ namespace LibraryCoreTests.Controllers
 
             RedirectToRouteResult CheckInHolding()
             {
-                return controller.Index(new CheckInViewModel { Barcode = aCheckedOutHolding.Barcode, BranchId = someValidBranchId })
+                return controller.Index(new CheckInViewModel
+                        {Barcode = aCheckedOutHolding.Barcode, BranchId = someValidBranchId})
                     as RedirectToRouteResult;
             }
 

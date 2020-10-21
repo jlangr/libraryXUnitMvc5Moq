@@ -17,17 +17,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <!-- at-sign Html.ActionLink("Check Outs", "Index", "CheckOut", new { area = "" }, new { at-sign class = "navbar-brand" }) -->
+                @Html.ActionLink("Check Outs", "Index", "CheckOut", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Patrons", "Index", "Patrons", new { area = "" }, new { @class = "navbar-brand" })
-                <!-- at-sign Html.ActionLink("Holdings", "Index", "Holdings", new { area = "" }, new { at-sign class = "navbar-brand" }) -->
+                @Html.ActionLink("Holdings", "Index", "Holdings", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
-                <!-- at-sign Html.Partial("_LoginPartial") -->
             </div>
         </div>
     </div>
