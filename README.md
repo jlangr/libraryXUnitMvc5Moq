@@ -40,3 +40,42 @@ Todo:
 
 -- installed .NET Core 3.1 
 https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-3.1.9-macos-x64-installer
+
+
+
+console logging from unit test:
+https://www.jetbrains.com/help/rider/Xunit.XunitTestWithConsoleOutput.html
+
+
+Installed .NET SDK
+
+clean
+=====
+dotnet tool install --global dotnet-ef
+dotnet tool install --global dotnet-aspnet-codegenerator --version 3.1.4
+
+Microsoft.EntityFrameworkCore.Design package (nuget 3.1.9)
+Microsoft.EntityFrameworkCore.InMemory (nuget 3.1.9)
+Microsoft.EntityFrameworkCore.SQlite (nuget 3.1.9)
+Microsoft.VisualStudio.Web.CodeGeneration.Design (nuget 3.1.4)
+Microsoft.EntityFrameworkCore.SqlServer (nuget 3.1.9)
+
+dotnet tool install --global dotnet-aspnet-codegenerator --version 3.1.4
+
+dotnet aspnet-codegenerator controller -name BranchesController -m Branch -dc BranchContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+# repeat for Holdings, Materials, Branches
+
+
+# make sure the solution is closed (or maybe just the executable)
+dotnet ef migrations add Initial -v
+dotnet ef database update
+
+dotnet ef migrations add RestOfTables
+
+
+?? TODO:
+
+- how to debug
+- effective console logging
+- look at their code. OO? functional? Linq w/ code or regular linq?

@@ -56,6 +56,7 @@ namespace LibraryCore.Controllers
             holding.CheckIn(TimeService.Now, checkin.BranchId);
             holdingRepo.Save(holding);
 
+            // TODO this is broke
             return RedirectToAction("Index");
         }
     }

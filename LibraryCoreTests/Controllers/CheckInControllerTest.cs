@@ -7,6 +7,7 @@ using LibraryCore.Util;
 using LibraryCore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
+using Xunit.Abstractions;
 using Assert = Xunit.Assert;
 
 namespace LibraryCoreTests.Controllers
@@ -70,9 +71,11 @@ namespace LibraryCoreTests.Controllers
         {
             private Holding aCheckedOutHolding;
             private DateTime now;
-
-            public WhenCheckInSucceedsTest()
+            
+            private readonly ITestOutputHelper testOutputHelper;
+            public WhenCheckInSucceedsTest(ITestOutputHelper testOutputHelper)
             {
+                this.testOutputHelper = testOutputHelper;
                 CreateCheckedOutHolding();
                 CreateValidPatron();
                 FixTimeService();
@@ -143,7 +146,12 @@ namespace LibraryCoreTests.Controllers
             [Fact]
             public void ThenRedirectsToIndex()
             {
-                Assert.Equal("Index", CheckInHolding().RouteValues["action"]);
+                testOutputHelper.WriteLine($"hey ho");
+                var redirectToRouteResult = CheckInHolding();
+                testOutputHelper.WriteLine($"result: {redirectToRouteResult}");
+                var routeValue = redirectToRouteResult.RouteValues["action"];
+                testOutputHelper.WriteLine($"route value {routeValue}");
+                Assert.Equal("Index", routeValue);
             }
         }
 
